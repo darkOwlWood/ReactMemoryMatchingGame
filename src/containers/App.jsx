@@ -1,11 +1,11 @@
 import React from 'react';
 import '../assets/styles/containers/App.scss';
-import Hello from '../components/Hello';
+import GameBoard from '../components/GameBoard';
 
 const App = () => {
     return (
         <div className="app">
-            <Hello />
+            <GameBoard />
         </div>
     );
 }
