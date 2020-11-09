@@ -1,5 +1,6 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import '../assets/styles/components/GameBoard.scss';
+import Config from '../config';
 import Card from './Card';
 
 const shuffle = (array,pass) => {
@@ -18,15 +19,18 @@ const shuffle = (array,pass) => {
 const GameBoard = () => {
 
     const [cardArray, setCardArray] = useState([]);
+    const [gameState, setGameState] = useState({fundedCards: 0});
+    const boardLock = useRef(false);
     const cardSelected = useRef({id: null, setLock: null});
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         setCardArray(shuffle(
-                Array(12)
+                Array(Config.CARDS_NUMBER)
                     .fill(0)
-                    .map((val,ndx) => [ndx,ndx])
+                    .map((val,ndx) => [ndx+1,ndx+1])
                     .flat(),
                 3));
+        setGameState({fundedCards: 0});
     },[]);
 
     return (
@@ -34,9 +38,12 @@ const GameBoard = () => {
             {
                 cardArray.map((val,ndx) => (
                     <Card 
-                        key={ndx} 
+                        key={ndx}
                         id={val}
                         cardSelected={cardSelected}
+                        gameState={gameState}
+                        setGameState={setGameState}
+                        boardLock={boardLock}
                     />
                 ))
             }
