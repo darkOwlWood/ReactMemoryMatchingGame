@@ -18,32 +18,29 @@ const shuffle = (array,pass) => {
 
 const GameBoard = () => {
 
-    const [cardArray, setCardArray] = useState([]);
-    const [gameState, setGameState] = useState({fundedCards: 0});
-    const boardLock = useRef(false);
-    const cardSelected = useRef({id: null, setLock: null});
+    const [gameState, setGameState] = useState({cardArray:[] ,fundedCards:0});
+    const cardSelected = useRef({id:null, setLock:null, boardLock:false});
 
     useEffect(() => {
-        setCardArray(shuffle(
-                Array(Config.CARDS_NUMBER)
-                    .fill(0)
-                    .map((val,ndx) => [ndx+1,ndx+1])
-                    .flat(),
-                3));
-        setGameState({fundedCards: 0});
-    },[]);
+        if(!gameState.cardArray.length){
+            const cardArray = shuffle(
+                    Array(Config.CARDS_NUMBER)
+                        .fill(0).map((val,ndx) => [ndx+1,ndx+1]).flat(),
+                    3);
+            setGameState({fundedCards: 0, cardArray});
+        }
+    },[gameState.cardArray]);
 
     return (
         <div className="game-board">
             {
-                cardArray.map((val,ndx) => (
+                gameState.cardArray.map((val,ndx) => (
                     <Card 
                         key={ndx}
                         id={val}
-                        cardSelected={cardSelected}
                         gameState={gameState}
                         setGameState={setGameState}
-                        boardLock={boardLock}
+                        cardSelected={cardSelected}
                     />
                 ))
             }

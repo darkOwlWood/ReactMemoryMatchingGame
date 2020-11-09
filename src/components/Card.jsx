@@ -2,7 +2,7 @@ import React, { useRef, useState, useLayoutEffect } from 'react';
 import '../assets/styles/components/Card.scss';
 import Config from '../config/';
 
-const Card = ({id,cardSelected,gameState,setGameState,boardLock}) => {
+const Card = ({id,gameState,setGameState,cardSelected}) => {
 
     const [lock, setLock] = useState(false);
     
@@ -10,27 +10,24 @@ const Card = ({id,cardSelected,gameState,setGameState,boardLock}) => {
         setTimeout( () => {
             setLock(false);
             cardSelected.current.setLock(false);
-            boardLock.current = false;
-            cardSelected.current = {id: null, setLock: null};
+            cardSelected.current = {id: null, setLock: null, boardLock: false};
         },Config.FLIP_ANIMATION + Config.WAITING_TIME);
     }
     
     const match = () => {
-        boardLock.current = false;
-        cardSelected.current = {id: null, setLock: null};
-        setGameState({fundedCards: gameState.fundedCards+1});
+        cardSelected.current = {id: null, setLock: null, boardLock: false};
+        setGameState({...gameState, fundedCards: ++gameState.fundedCards});
     }
 
     const handleOnClick = () => {
-        console.log(boardLock.current); /* --- */
-        if(!boardLock.current){
+        if(!cardSelected.current.boardLock){
             if(cardSelected.current.id){ /* this can't be 0 due to the behave of JS falsy values */
                 setLock(true);
-                boardLock.current = true;
+                cardSelected.current.boardLock = true;
                 cardSelected.current.id===id? match() : dontMatch();
             }else{
                 setLock(true);
-                cardSelected.current = {id, setLock};
+                cardSelected.current = {id, setLock, ...cardSelected};
             }
         }
     }
