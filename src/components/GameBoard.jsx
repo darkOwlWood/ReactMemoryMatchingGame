@@ -22,14 +22,12 @@ const GameBoard = () => {
     const cardSelected = useRef({id:null, setLock:null, boardLock:false});
 
     useEffect(() => {
-        if(!gameState.cardArray.length){
-            const cardArray = shuffle(
-                    Array(Config.CARDS_NUMBER)
-                        .fill(0).map((val,ndx) => [ndx+1,ndx+1]).flat(),
-                    3);
-            setGameState({fundedCards: 0, cardArray});
-        }
-    },[gameState.cardArray]);
+        const cardArray = shuffle(
+                Array(Config.CARDS_NUMBER)
+                    .fill(0).map((val,ndx) => [ndx+1,ndx+1]).flat(),
+                3);
+        setGameState({fundedCards: 0, cardArray});
+    },[]);
 
     return (
         <div className="game-board">
