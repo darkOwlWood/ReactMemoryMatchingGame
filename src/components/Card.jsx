@@ -1,4 +1,4 @@
-import React, { useRef, useState, useLayoutEffect } from 'react';
+import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
 import '../assets/styles/components/Card.scss';
 import Config from '../config/';
 
@@ -8,32 +8,47 @@ const Card = ({id,gameState,setGameState,cardSelected}) => {
     const divEl = useRef(null);
     const [lock, setLock] = useState(false);
     
+    //<<----------------------------------------------------->> 
     useLayoutEffect(() => {
         cardSelected.current.boardLock = true;
-        const animationArray =[
-            {name:'card--fade-in', value:1000},
-            {name:'card--reflect', value:1500},
+        const animationArray =  [
+            {name: Config.ANIMATION.FADEIN.className,  value:Config.ANIMATION.FADEIN.time},
+            {name: Config.ANIMATION.REFLECT.className, value:Config.ANIMATION.REFLECT.time},
         ];
-        playAnimations(animationArray);
+        playAnimations(animationArray, () => cardSelected.current.boardLock = false);
     },[]);
 
-    function playAnimations(animationArray){
+    useEffect(() => {
+        if(gameState.fundedCards===Config.CARDS_NUMBER){
+            setTimeout(() => {
+                setLock(false);
+                cardSelected.current.boardLock = true;
+                divEl.current.classList.add(Config.ANIMATION.FADEOUT.className);
+                if(Config.CARDS_NUMBER===id){/*UnLock the board when the last card end the animation */
+                    setTimeout(() => setGameState({fundedCards:0, cardArray:[]}),1000);
+                }
+            },Config.WAITING_TIME);
+        }
+    },[gameState.fundedCards]);
+
+    function playAnimations(animationArray,callBack){
         if(animationArray.length===0){
-            if(Config.CARDS_NUMBER===id){
-                cardSelected.current.boardLock = false; /*UnLock the board when the last cargd end the animation */
+            if(Config.CARDS_NUMBER===id){/*UnLock the board when the last card end the animation */
+                callBack();
             }
             return;
         }
         divEl.current.classList.add(animationArray[0].name);
-        setTimeout(() => playAnimations(animationArray.slice(1)), animationArray[0].value);
+        setTimeout(() => playAnimations(animationArray.slice(1),callBack), animationArray[0].value);
     }
+    //<<----------------------------------------------------->> 
 
     const dontMatch = () => {
         setTimeout( () => {
             setLock(false);
             cardSelected.current.setLock(false);
             cardSelected.current = {id: null, setLock: null, boardLock: false};
-        },Config.FLIP_ANIMATION + Config.WAITING_TIME);
+        },Config.TRANSITION.FLIP.time + Config.WAITING_TIME);
     }
     
     const match = () => {

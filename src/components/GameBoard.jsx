@@ -1,7 +1,8 @@
 import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import '../assets/styles/components/GameBoard.scss';
-import Config from '../config';
 import Card from './Card';
+import Message from './Message';
+import Config from '../config';
 
 const shuffle = (array,pass) => {
     const array_copy = array.slice();
@@ -18,20 +19,24 @@ const shuffle = (array,pass) => {
 
 const GameBoard = () => {
 
+    const [triggerStart, setTriggerStart] = useState([0]);
     const [gameState, setGameState] = useState({cardArray:[] ,fundedCards:0});
     const cardSelected = useRef({id:null, setLock:null, boardLock:false});
 
     useEffect(() => {
-        const cardArray = shuffle(
-                Array(Config.CARDS_NUMBER)
-                    .fill(0).map((val,ndx) => [ndx+1,ndx+1]).flat(),
-                3);
-        setGameState({fundedCards: 0, cardArray});
-    },[]);
+        if(triggerStart[0]===1){
+            const cardArray = shuffle(
+                    Array(Config.CARDS_NUMBER)
+                        .fill(0).map((val,ndx) => [ndx+1,ndx+1]).flat(),
+                    3);
+            setGameState({...gameState, cardArray});
+        }
+    },[triggerStart]);
 
     return (
         <div className="game-board">
             {
+                gameState.cardArray.length!==0?
                 gameState.cardArray.map((val,ndx) => (
                     <Card 
                         key={ndx}
@@ -41,6 +46,7 @@ const GameBoard = () => {
                         cardSelected={cardSelected}
                     />
                 ))
+                :<Message setTriggerStart={setTriggerStart}/>
             }
         </div>
     );

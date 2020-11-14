@@ -1,0 +1,14 @@
+.message{
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+    background-color: rosybrown;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    z-index: 10;
+}
