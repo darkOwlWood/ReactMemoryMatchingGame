@@ -17,7 +17,7 @@ const shuffle = (array,pass) => {
     return pass===1? array_copy:shuffle(array_copy,pass-1);
 }
 
-const GameBoard = ({addMovements,restardMovements}) => {
+const GameBoard = ({addMovements,restardMovements,startClock,stopClock}) => {
 
     const [triggerStart, setTriggerStart] = useState([0]);
     const [gameState, setGameState] = useState({cardArray:[] ,fundedCards:0});
@@ -31,7 +31,6 @@ const GameBoard = ({addMovements,restardMovements}) => {
                         .map((val,ndx) => [{id:ndx+1, bg:Config.CARD_PICTURE[ndx]},{id:ndx+1, bg:Config.CARD_PICTURE[ndx]}])
                         .flat(),
                     3);
-            // restardMovements();
             setGameState({...gameState, cardArray});
         }
     },[triggerStart]);
@@ -52,7 +51,11 @@ const GameBoard = ({addMovements,restardMovements}) => {
                         restardMovements={restardMovements}
                     />
                 ))
-                :<Message setTriggerStart={setTriggerStart}/>
+                :<Message
+                    setTriggerStart={setTriggerStart}
+                    startClock={startClock}
+                    stopClock={stopClock}
+                />
             }
         </div>
     );

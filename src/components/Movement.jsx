@@ -17,7 +17,7 @@ const Movement = ({movements}) => {
     },[movements]);
 
     return (
-        <div className="movements">
+        <div className="movement">
             <span>Current moves {gameMoves.current}</span>
             <span>Min. moves {gameMoves.minumun}</span>
 
