@@ -2,11 +2,11 @@ import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
 import '../assets/styles/components/Card.scss';
 import Config from '../config/';
 
-const Card = ({id,backgroundImage,gameState,setGameState,cardSelected}) => {
+const Card = ({id,image,cardSelected,gameState,setGameState,addMovements,restardMovements}) => {
     
     const divEl = useRef(null);
     const [lock, setLock] = useState(false);
-    const style = {backgroundImage: `url(../src/assets/static/zeldaMemory/${backgroundImage})`};
+    const style = {backgroundImage: `url(../src/assets/static/zeldaMemory/${image})`};
     
     //ANIMATION BLOCK
     //<<----------------------------------------------------->> 
@@ -23,6 +23,7 @@ const Card = ({id,backgroundImage,gameState,setGameState,cardSelected}) => {
         if(gameState.fundedCards===Config.CARDS_NUMBER){
             setTimeout(() => {
                 setLock(false);
+                restardMovements();
                 cardSelected.current.boardLock = true;
                 divEl.current.classList.add(Config.ANIMATION.FADEOUT.className);
                 if(Config.CARDS_NUMBER===id){/*UnLock the board when the last card end the animation */
@@ -59,6 +60,7 @@ const Card = ({id,backgroundImage,gameState,setGameState,cardSelected}) => {
 
     const handleOnClick = () => {
         if(!cardSelected.current.boardLock){
+            addMovements();
             if(cardSelected.current.id){ /* this can't be 0 due to the behave of JS falsy values */
                 setLock(true);
                 cardSelected.current.boardLock = true;
@@ -69,8 +71,6 @@ const Card = ({id,backgroundImage,gameState,setGameState,cardSelected}) => {
             }
         }
     }
-
-    console.log(style)
 
     return (
         <div 

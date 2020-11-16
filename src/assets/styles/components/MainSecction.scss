@@ -3,7 +3,8 @@
     height: 100vh;
 
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
 
     background-image: url('../../static/botw_land_scape.jpg');
@@ -17,11 +18,20 @@
     position: relative;
 }
 
+.main-section__info-box{
+    width: 350px;
+    height: 70px;
+
+    background-color: rgba(255,255,255,.5);
+}
+
 @media(min-width:700px){
     .main-section__game-container{
         width: 490px;
-        height: 470px;
-    
-        position: relative;
+        height: 470px;    
+    }
+
+    .main-section__info-box{
+        width: 490px;
     }
 }
