@@ -2,12 +2,13 @@ import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
 import '../assets/styles/components/Card.scss';
 import Config from '../config/';
 
-
-const Card = ({id,gameState,setGameState,cardSelected}) => {
+const Card = ({id,backgroundImage,gameState,setGameState,cardSelected}) => {
     
     const divEl = useRef(null);
     const [lock, setLock] = useState(false);
+    const style = {backgroundImage: `url(../src/assets/static/zeldaMemory/${backgroundImage})`};
     
+    //ANIMATION BLOCK
     //<<----------------------------------------------------->> 
     useLayoutEffect(() => {
         cardSelected.current.boardLock = true;
@@ -69,6 +70,8 @@ const Card = ({id,gameState,setGameState,cardSelected}) => {
         }
     }
 
+    console.log(style)
+
     return (
         <div 
             ref={divEl} 
@@ -78,7 +81,7 @@ const Card = ({id,gameState,setGameState,cardSelected}) => {
                 className={`card ${lock? '' : 'card--flip'}`}
                 onClick={lock? ()=>{} : handleOnClick}
             >
-                <span className="card__front-face">{ id }</span>
+                <span className="card__front-face" style={style}></span>
                 <span className="card__back-face"></span>
             </div>
         </div>

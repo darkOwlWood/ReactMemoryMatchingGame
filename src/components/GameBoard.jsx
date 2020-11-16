@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import '../assets/styles/components/GameBoard.scss';
 import Card from './Card';
 import Message from './Message';
@@ -27,7 +27,9 @@ const GameBoard = () => {
         if(triggerStart[0]===1){
             const cardArray = shuffle(
                     Array(Config.CARDS_NUMBER)
-                        .fill(0).map((val,ndx) => [ndx+1,ndx+1]).flat(),
+                        .fill(0)
+                        .map((val,ndx) => [{id:ndx+1, bg:Config.CARD_PICTURE[ndx]},{id:ndx+1, bg:Config.CARD_PICTURE[ndx]}])
+                        .flat(),
                     3);
             setGameState({...gameState, cardArray});
         }
@@ -37,10 +39,11 @@ const GameBoard = () => {
         <div className="game-board">
             {
                 gameState.cardArray.length!==0?
-                gameState.cardArray.map((val,ndx) => (
+                gameState.cardArray.map((obj,ndx) => (
                     <Card 
                         key={ndx}
-                        id={val}
+                        id={obj.id}
+                        backgroundImage={obj.bg}
                         gameState={gameState}
                         setGameState={setGameState}
                         cardSelected={cardSelected}

@@ -16,3 +16,12 @@
 
     position: relative;
 }
+
+@media(min-width:700px){
+    .main-section__game-container{
+        width: 490px;
+        height: 470px;
+    
+        position: relative;
+    }
+}
