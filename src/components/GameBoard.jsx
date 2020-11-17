@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect } from 'react';
 import '../assets/styles/components/GameBoard.scss';
 import Card from './Card';
-import Message from './Message';
 import Config from '../config';
 
 function importAll(context) {
@@ -24,28 +23,24 @@ const shuffle = (array,pass) => {
     return pass===1? array_copy:shuffle(array_copy,pass-1);
 }
 
-const GameBoard = ({addMovements,restardMovements,startClock,stopClock,flagValue,baseFlagValue}) => {
+const GameBoard = ({setTriggerStart,addMovements,restardMovements}) => {
 
-    const [triggerStart, setTriggerStart] = useState([0]);
     const [gameState, setGameState] = useState({cardArray:[] ,fundedCards:0});
     const cardSelected = useRef({id:null, setLock:null, boardLock:false});
 
-    useEffect(() => {
-        if(triggerStart[0]===1){
-            const cardArray = shuffle(
-                    Array(Config.CARDS_NUMBER)
-                        .fill(0)
-                        .map((val,ndx) => [{id:ndx+1, bg:images[Config.CARD_PICTURE[ndx]]},{id:ndx+1, bg:images[Config.CARD_PICTURE[ndx]]}])
-                        .flat(),
-                    3);
-            setGameState({...gameState, cardArray});
-        }
-    },[triggerStart]);
+    useLayoutEffect(() => {
+        const cardArray = shuffle(
+                Array(Config.CARDS_NUMBER)
+                    .fill(0)
+                    .map((val,ndx) => [{id:ndx+1, bg:images[Config.CARD_PICTURE[ndx]]},{id:ndx+1, bg:images[Config.CARD_PICTURE[ndx]]}])
+                    .flat(),
+                3);
+        setGameState({...gameState, cardArray});
+    },[]);
 
     return (
         <div className="game-board">
             {
-                gameState.cardArray.length!==0?
                 gameState.cardArray.map((obj,ndx) => (
                     <Card 
                         key={ndx}
@@ -56,16 +51,12 @@ const GameBoard = ({addMovements,restardMovements,startClock,stopClock,flagValue
                         setGameState={setGameState}
                         addMovements={addMovements}
                         restardMovements={restardMovements}
+                        setTriggerStart={setTriggerStart}
                     />
                 ))
-                :<Message
-                    setTriggerStart={setTriggerStart}
-                    startClock={startClock}
-                    stopClock={stopClock}
-                />
             }
         </div>
     );
 }
 
-export default React.memo(GameBoard, (prev,next) => prev.baseFlagValue!==next.flagValue);
+export default GameBoard;

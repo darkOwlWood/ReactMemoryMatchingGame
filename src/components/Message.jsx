@@ -17,7 +17,7 @@ const Message = ({setTriggerStart,startClock,stopClock}) => {
         divEl.current.classList.add(Config.ANIMATION.FADEOUT.className);
         setTimeout( () => {
             startClock();
-            setTriggerStart([1]);
+            setTriggerStart(true);
         },Config.ANIMATION.FADEOUT.time);
     }
 

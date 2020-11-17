@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
 import '../assets/styles/components/Card.scss';
 import Config from '../config/';
 
-const Card = ({id,image,cardSelected,gameState,setGameState,addMovements,restardMovements}) => {
+const Card = ({id,image,cardSelected,gameState,setGameState,addMovements,restardMovements,setTriggerStart}) => {
 
     const divEl = useRef(null);
     const [lock, setLock] = useState(false);
@@ -10,7 +10,7 @@ const Card = ({id,image,cardSelected,gameState,setGameState,addMovements,restard
     
     //ANIMATION BLOCK
     //<<----------------------------------------------------->> 
-    useLayoutEffect(() => {
+    useLayoutEffect(() => {//START
         cardSelected.current.boardLock = true;
         const animationArray =  [
             {name: Config.ANIMATION.FADEIN.className,  value:Config.ANIMATION.FADEIN.time},
@@ -19,15 +19,15 @@ const Card = ({id,image,cardSelected,gameState,setGameState,addMovements,restard
         playAnimations(animationArray, () => cardSelected.current.boardLock = false);
     },[]);
 
-    useEffect(() => {
+    useEffect(() => {//END
         if(gameState.fundedCards===Config.CARDS_NUMBER){
             setTimeout(() => {
-                setLock(false);
-                restardMovements();
                 cardSelected.current.boardLock = true;
+                restardMovements();
+                setLock(false);
                 divEl.current.classList.add(Config.ANIMATION.FADEOUT.className);
                 if(Config.CARDS_NUMBER===id){/*UnLock the board when the last card end the animation */
-                    setTimeout(() => setGameState({fundedCards:0, cardArray:[]}),1000);
+                    setTimeout(() => setTriggerStart(false),Config.ANIMATION.FADEOUT.time);
                 }
             },Config.WAITING_TIME);
         }

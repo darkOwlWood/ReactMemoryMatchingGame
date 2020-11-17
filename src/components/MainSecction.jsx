@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 import '../assets/styles/components/MainSecction.scss';
-import GameBoard from './GameBoard';
 import InfoBox from './InfoBox';
+import GameBoard from './GameBoard';
+import Message from './Message';
 
 const moveClock = (time) => {
     let [hour,minute,second] = time.split(':').map(val => Number(val));
@@ -14,9 +15,11 @@ const moveClock = (time) => {
 
 const MainSecction = () => {
 
+    const timerId = useRef(null);
     const [movements,setMovements] = useState(0);
     const [clock, setClock] = useState('00:00:00');
-    const timerId = useRef(null);
+    const [triggerStart, setTriggerStart] = useState(false);
+
 
     const addMovements = () => {
         let movements = 0;
@@ -45,14 +48,19 @@ const MainSecction = () => {
                 <InfoBox movements={movements} clock={clock}/>
             </div>
             <div className="main-section__game-container">
-                <GameBoard
-                    addMovements={addMovements()} 
-                    restardMovements={restardMovements}
-                    startClock={startClock}
-                    stopClock={stopClock}
-                    flagValue={clock}
-                    baseFlagValue={'00:00:00'}
-                />
+                {
+                    triggerStart?
+                    <GameBoard
+                        setTriggerStart={setTriggerStart}
+                        addMovements={addMovements()} 
+                        restardMovements={restardMovements}
+                    />
+                    :<Message
+                        setTriggerStart={setTriggerStart}
+                        startClock={startClock}
+                        stopClock={stopClock}
+                    />
+                }
             </div>
         </div>
     );
