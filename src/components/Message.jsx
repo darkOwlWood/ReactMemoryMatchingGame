@@ -7,7 +7,6 @@ const Message = ({setTriggerStart,startClock,stopClock}) => {
     const divEl = useRef(null);
 
     useEffect(() => {
-        console.log('Hey')
         setTimeout( () => {
             stopClock();
             divEl.current.classList.add(Config.ANIMATION.FADEIN.className);
