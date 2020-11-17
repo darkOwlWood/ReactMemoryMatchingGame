@@ -3,10 +3,12 @@ import '../assets/styles/components/Card.scss';
 import Config from '../config/';
 
 const Card = ({id,image,cardSelected,gameState,setGameState,addMovements,restardMovements}) => {
-    
+
+    console.log('Hola');//-----------------------------
+
     const divEl = useRef(null);
     const [lock, setLock] = useState(false);
-    const style = {backgroundImage: `url(../src/assets/static/zeldaMemory/${image})`};
+    const style = {backgroundImage: `url(${image.default})`};
     
     //ANIMATION BLOCK
     //<<----------------------------------------------------->> 

@@ -18,10 +18,15 @@ const MainSecction = () => {
     const [clock, setClock] = useState('00:00:00');
     const timerId = useRef(null);
 
-    const addMovements = () => setMovements(movements+1);
+    const addMovements = () => {
+        let movements = 0;
+        return () => {
+            movements+=1;
+            setMovements(movements);
+        }
+    }
     const restardMovements = () => setMovements(0);
     
-
     const startClock = () => {
         let clock = '00:00:00';
         timerId.current = setInterval(() => {
@@ -40,11 +45,13 @@ const MainSecction = () => {
                 <InfoBox movements={movements} clock={clock}/>
             </div>
             <div className="main-section__game-container">
-                <GameBoard 
-                    addMovements={addMovements} 
+                <GameBoard
+                    addMovements={addMovements()} 
                     restardMovements={restardMovements}
                     startClock={startClock}
                     stopClock={stopClock}
+                    flagValue={clock}
+                    baseFlagValue={'00:00:00'}
                 />
             </div>
         </div>

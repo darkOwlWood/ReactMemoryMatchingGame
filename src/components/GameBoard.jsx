@@ -4,6 +4,13 @@ import Card from './Card';
 import Message from './Message';
 import Config from '../config';
 
+function importAll(context) {
+    let images = {};
+    context.keys().map((item, index) => { images[item.replace('./', '')] = context(item); });
+    return images;
+}
+const images = importAll(require.context('../assets/static/zeldaMemory', false, /\.(png)$/));
+
 const shuffle = (array,pass) => {
     const array_copy = array.slice();
     const length = array_copy.length;
@@ -17,7 +24,7 @@ const shuffle = (array,pass) => {
     return pass===1? array_copy:shuffle(array_copy,pass-1);
 }
 
-const GameBoard = ({addMovements,restardMovements,startClock,stopClock}) => {
+const GameBoard = ({addMovements,restardMovements,startClock,stopClock,flagValue,baseFlagValue}) => {
 
     const [triggerStart, setTriggerStart] = useState([0]);
     const [gameState, setGameState] = useState({cardArray:[] ,fundedCards:0});
@@ -28,7 +35,7 @@ const GameBoard = ({addMovements,restardMovements,startClock,stopClock}) => {
             const cardArray = shuffle(
                     Array(Config.CARDS_NUMBER)
                         .fill(0)
-                        .map((val,ndx) => [{id:ndx+1, bg:Config.CARD_PICTURE[ndx]},{id:ndx+1, bg:Config.CARD_PICTURE[ndx]}])
+                        .map((val,ndx) => [{id:ndx+1, bg:images[Config.CARD_PICTURE[ndx]]},{id:ndx+1, bg:images[Config.CARD_PICTURE[ndx]]}])
                         .flat(),
                     3);
             setGameState({...gameState, cardArray});
@@ -61,4 +68,4 @@ const GameBoard = ({addMovements,restardMovements,startClock,stopClock}) => {
     );
 }
 
-export default GameBoard;
+export default React.memo(GameBoard, (prev,next) => prev.baseFlagValue!==next.flagValue);
