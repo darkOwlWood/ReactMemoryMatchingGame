@@ -1,18 +1,5 @@
 @import '../Animation.scss';
-
-@font-face{
-    font-family: 'Calamity-Bold';
-    src: url('../../static/fonts/Calamity-Bold.woff'), url('../../static/fonts/Calamity-Bold.woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face{
-    font-family: 'Calamity-Regular';
-    src: url('../../static/fonts/Calamity-Regular.woff'), url('../../static/fonts/Calamity-Regular.woff2');
-    font-weight: normal;
-    font-style: normal;
-}
+@import '../Font.scss';
 
 body{
     margin: 0;

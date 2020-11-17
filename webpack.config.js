@@ -41,7 +41,7 @@ module.exports = {
                 ]
             },
             {
-                test:/\.(woff|woff2)$/,
+                test:/\.(woff|woff2|otf)$/,
                 loader:'file-loader',
             }
         ],

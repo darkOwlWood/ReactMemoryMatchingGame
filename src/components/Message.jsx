@@ -28,7 +28,9 @@ const Message = ({setTriggerStart,startClock,stopClock}) => {
             className="message"
             onClick={handleClick}
         >
-            Haz click
+            <span className="message__test-name">A MEMORY TEST OF MATCHING</span>
+            <span className="message__test-author">Owl shrine</span>
+            <span className="message__test-info">Click to start</span>
         </div>
     );
 }
