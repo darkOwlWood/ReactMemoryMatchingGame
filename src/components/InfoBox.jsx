@@ -1,13 +1,22 @@
 import React from 'react';
 import '../assets/styles/components/InfoBox.scss';
-import Movements from './Movement';
-import Clock from './Clock';
+import GameStat from './GameStat';
 
 const InfoBox = ({movements,clock}) => {
     return (
         <div className="info-box">
-            <Movements movements={movements}/>
-            <Clock clock={clock} />
+            <GameStat 
+                gameData={movements}
+                className={'movement'}
+                statName={'moves'}
+                startValue={0}
+            />
+            <GameStat
+                gameData={clock}
+                className={'clock'}
+                statName={'time'}
+                startValue={'00:00:00'}
+            />
         </div>
     );
 }

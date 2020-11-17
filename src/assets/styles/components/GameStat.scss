@@ -1,0 +1,19 @@
+.game-stat{
+    height: 100%;
+    width: 200px;
+
+    font-size: .7em;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+
+    background-color: blueviolet;
+}
+
+@media(min-width:700px){
+    .game-stat{
+        font-size: 1em;
+    }
+}

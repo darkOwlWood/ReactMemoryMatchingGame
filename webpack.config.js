@@ -39,6 +39,10 @@ module.exports = {
                         },
                     }
                 ]
+            },
+            {
+                test:/\.(woff|woff2)$/,
+                loader:'file-loader',
             }
         ],
     },
