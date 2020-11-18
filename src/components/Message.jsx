@@ -2,13 +2,13 @@ import React, { useRef, useEffect } from 'react';
 import '../assets/styles/components/Message.scss'
 import Config from '../config';
 
-const Message = ({setTriggerStart,startClock,stopClock}) => {
+const Message = ({addTime,restartTime,setTriggerStart}) => {
 
     const divEl = useRef(null);
-
+    
     useEffect(() => {
         setTimeout( () => {
-            stopClock();
+            restartTime && restartTime();
             divEl.current.classList.add(Config.ANIMATION.FADEIN.className);
         },Config.TRANSITION.FLIP.time);
     },[]);
@@ -16,7 +16,7 @@ const Message = ({setTriggerStart,startClock,stopClock}) => {
     const handleClick = () =>{
         divEl.current.classList.add(Config.ANIMATION.FADEOUT.className);
         setTimeout( () => {
-            startClock();
+            addTime();
             setTriggerStart(true);
         },Config.ANIMATION.FADEOUT.time);
     }

@@ -23,7 +23,7 @@ const shuffle = (array,pass) => {
     return pass===1? array_copy:shuffle(array_copy,pass-1);
 }
 
-const GameBoard = ({setTriggerStart,addMovements,restardMovements}) => {
+const GameBoard = ({addMovement,restartMovement,setTriggerStart}) => {
 
     const [gameState, setGameState] = useState({cardArray:[] ,fundedCards:0});
     const cardSelected = useRef({id:null, setLock:null, boardLock:false});
@@ -49,8 +49,8 @@ const GameBoard = ({setTriggerStart,addMovements,restardMovements}) => {
                         cardSelected={cardSelected}
                         gameState={gameState}
                         setGameState={setGameState}
-                        addMovements={addMovements}
-                        restardMovements={restardMovements}
+                        addMovement={addMovement}
+                        restartMovement={restartMovement}
                         setTriggerStart={setTriggerStart}
                     />
                 ))

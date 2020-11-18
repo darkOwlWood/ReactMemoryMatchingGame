@@ -2,7 +2,9 @@ import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
 import '../assets/styles/components/Card.scss';
 import Config from '../config/';
 
-const Card = ({id,image,cardSelected,gameState,setGameState,addMovements,restardMovements,setTriggerStart}) => {
+const Card = ({id,image,cardSelected,gameState,setGameState,addMovement,restartMovement,setTriggerStart}) => {
+
+    console.log('Hola');
 
     const divEl = useRef(null);
     const [lock, setLock] = useState(false);
@@ -22,9 +24,9 @@ const Card = ({id,image,cardSelected,gameState,setGameState,addMovements,restard
     useEffect(() => {//END
         if(gameState.fundedCards===Config.CARDS_NUMBER){
             setTimeout(() => {
-                cardSelected.current.boardLock = true;
-                restardMovements();
                 setLock(false);
+                restartMovement();
+                cardSelected.current.boardLock = true;
                 divEl.current.classList.add(Config.ANIMATION.FADEOUT.className);
                 if(Config.CARDS_NUMBER===id){/*UnLock the board when the last card end the animation */
                     setTimeout(() => setTriggerStart(false),Config.ANIMATION.FADEOUT.time);
@@ -60,7 +62,7 @@ const Card = ({id,image,cardSelected,gameState,setGameState,addMovements,restard
 
     const handleOnClick = () => {
         if(!cardSelected.current.boardLock){
-            addMovements();
+            addMovement();
             if(cardSelected.current.id){ /* this can't be 0 due to the behave of JS falsy values */
                 setLock(true);
                 cardSelected.current.boardLock = true;
